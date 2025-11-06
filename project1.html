@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI News Dashboard</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+
+    header {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #00cec9;
+    }
+
+    header p {
+      margin: 5px 0;
+      font-size: 1.1rem;
+      color: #81ecec;
+    }
+
+    .news-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .news-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .news-card h3 {
+      color: #00cec9;
+      margin-bottom: 10px;
+    }
+
+    .news-card p {
+      color: #dfe6e9;
+      font-size: 0.95rem;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      background: #00cec9;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #81ecec;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      color: #b2bec3;
+    }
+
+    /* Popup Modal */
+    .popup {
+      display: none; /* hidden by default */
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: #1e2a47;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 15px #00cec9;
+      width: 80%;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .popup-content h2 {
+      color: #00cec9;
+    }
+
+    .popup-content p {
+      color: #dfe6e9;
+    }
+
+    .close-btn {
+      background: #00cec9;
+      color: #000;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .close-btn:hover {
+      background: #81ecec;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📰 AI News Dashboard</h1>
+    <p>Latest updates from the world of Artificial Intelligence</p>
+  </header>
+
+  <button onclick="generateNews()">🔄 Refresh News</button>
+
+  <section class="news-container" id="newsContainer">
+    <!-- News will appear here -->
+  </section>
+
+  <footer>
+    © 2025 AI News Dashboard | Created by Abhishek Gupta
+  </footer>
+
+  <!-- Popup window -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>Welcome to AI News Dashboard!</h2>
+      <p>Stay informed with the latest trends in Artificial Intelligence 🤖</p>
+      <button class="close-btn" onclick="closePopup()">Got it!</button>
+    </div>
+  </div>
+
+  <script>
+    const newsData = [
+      {
+        title: "Google launches new AI model Gemini",
+        desc: "Google introduces Gemini, its next-gen AI model designed to compete with OpenAI’s GPT-5. It focuses on multimodal reasoning and real-time learning."
+      },
+      {
+        title: "OpenAI announces ChatGPT Voice",
+        desc: "ChatGPT gets voice interaction features, allowing users to talk naturally with the AI assistant for better accessibility."
+      },
+      {
+        title: "India’s first AI university inaugurated",
+        desc: "The Government of India inaugurates its first AI-focused university in Bengaluru, aiming to train 1 lakh AI engineers by 2030."
+      },
+      {
+        title: "AI beats humans in medical image diagnosis",
+        desc: "A recent study shows that AI systems now surpass radiologists in identifying early-stage cancer through X-rays and MRI scans."
+      },
+      {
+        title: "Tesla’s Optimus robot enters production",
+        desc: "Elon Musk confirms mass production of Tesla’s humanoid robot Optimus, designed for household and industrial tasks."
+      }
+    ];
+
+    function generateNews() {
+      const container = document.getElementById("newsContainer");
+      container.innerHTML = "";
+
+      const shuffled = newsData.sort(() => 0.5 - Math.random());
+      shuffled.forEach(news => {
+        const card = document.createElement("div");
+        card.className = "news-card";
+        card.innerHTML = `<h3>${news.title}</h3><p>${news.desc}</p>`;
+        container.appendChild(card);
+      });
+    }
+
+    // Popup Functions
+    function openPopup() {
+      document.getElementById("popup").style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // Show popup after 1 second on page load
+    window.onload = function() {
+      setTimeout(openPopup, 1000);
+      generateNews();
+    };
+  </script>
+
+</body>
+</html>
